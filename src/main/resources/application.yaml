@@ -1,0 +1,11 @@
+server:
+  port: 9090
+
+#************************************************************
+#  Mongo DB
+#************************************************************
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://nova_junction:9tMgd8JJu81RE7GG@junction.dd8rcod.mongodb.net/
+      database: junction
