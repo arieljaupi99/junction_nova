@@ -4,7 +4,6 @@ import junction.al.nova_spring.security.model.AuthenticationRequest;
 import junction.al.nova_spring.security.model.AuthenticationResponse;
 import junction.al.nova_spring.security.model.RegisterRequest;
 import junction.al.nova_spring.security.services.AuthService;
-import junction.al.nova_spring.security.services.TokenBlacklistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
