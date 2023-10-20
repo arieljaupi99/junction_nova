@@ -25,4 +25,13 @@ public class RoomServiceImpl implements RoomService {
     public Optional<Room> findRoomById(String roomId) {
         return this.roomRepo.findById(roomId);
     }
+
+    @Override
+    public void updateAlarm(String roomId, boolean alarm) {
+        Room room = this.roomRepo.findById(roomId).orElse(null);
+        if (room != null) {
+            room.setAlarm(alarm);
+            this.roomRepo.save(room);
+        }
+    }
 }

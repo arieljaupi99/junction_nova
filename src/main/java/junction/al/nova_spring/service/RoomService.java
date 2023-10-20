@@ -9,4 +9,6 @@ public interface RoomService {
     List<Room> getAllRoomsPerFloor(String floorId);
 
     Optional<Room> findRoomById(String roomId);
+
+    void updateAlarm(String roomId,boolean alarm);
 }

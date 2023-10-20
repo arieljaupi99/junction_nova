@@ -24,4 +24,13 @@ public class RoomController {
         return ResponseEntity.ok(this.roomService.getAllRoomsPerFloor(floorId));
     }
 
+    @PostMapping("{roomId}/updateAlarm")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateRoomAlarm(
+            @PathVariable("roomId")String roomId,
+            @RequestParam("alarm")boolean alarm
+    ){
+        this.roomService.updateAlarm(roomId,alarm);
+    }
+
 }
