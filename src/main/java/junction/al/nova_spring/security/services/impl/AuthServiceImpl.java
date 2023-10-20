@@ -1,6 +1,6 @@
 package junction.al.nova_spring.security.services.impl;
 
-import junction.al.nova_spring.repository.BadEnvironmentProperty;
+import junction.al.nova_spring.exception.BadEnvironmentProperty;
 import junction.al.nova_spring.security.entities.User;
 import junction.al.nova_spring.security.enums.Role;
 import junction.al.nova_spring.security.model.AuthenticationRequest;
@@ -34,16 +34,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         var user = new User();
-        user.setUsername(registerRequest.getUsername());
+        user.setUsername(registerRequest.getUsername().trim().toLowerCase());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        Role roleEnum;
-        String role = registerRequest.getRole();
-        switch (role) {
-            case "user" -> roleEnum = Role.USER;
-            case "admin" -> roleEnum = Role.ADMIN;
-            default -> throw new BadEnvironmentProperty("Role does not exist");
-        }
-        user.setRole(roleEnum);
+        user.setRole(Role.USER);
         this.userRepo.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

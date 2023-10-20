@@ -1,9 +1,11 @@
 package junction.al.nova_spring.security.entities;
 
+import junction.al.nova_spring.entities.Contract;
 import junction.al.nova_spring.security.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,12 +22,14 @@ public class User implements UserDetails {
     @Id
     private String id;
     @Field(name = "username")
+    @Indexed(unique = true)
     private String username;
     @Field(name = "password")
     private String password;
     @Getter
     @Field(name = "role")
     private Role role;
+    private Contract contract;
 
     @Override
     public boolean isAccountNonExpired() {

@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document("building")
+@Document("floor")
 @Getter
 @Setter
-public class Building {
+public class Floor {
     @Id
     private String id;
-    private String name;
+    private String floorNumber;
+    private String buildingId;
 }

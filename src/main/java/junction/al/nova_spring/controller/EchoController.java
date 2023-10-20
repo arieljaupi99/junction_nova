@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("main")
-@Tag(name = "Main")
-public class MainController {
+@RequestMapping("echo")
+@Tag(name = "echo")
+public class EchoController {
 
-    @GetMapping("echo")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String echo() {
         return "echo";

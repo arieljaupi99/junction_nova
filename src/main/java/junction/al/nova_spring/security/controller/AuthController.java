@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest registerRequest
     ) {
         return ResponseEntity.ok(this.authService.authenticate(registerRequest));

@@ -1,18 +1,21 @@
 package junction.al.nova_spring.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 
-@Document("building")
+@Document("contract")
 @Getter
 @Setter
-public class Building {
+public class Contract {
     @Id
     private String id;
-    private String name;
+    private String userId;
+    private String contractNumber;
+    private String pdfPath;
+    private ZonedDateTime startDate;
+    private ZonedDateTime endDate;
 }
