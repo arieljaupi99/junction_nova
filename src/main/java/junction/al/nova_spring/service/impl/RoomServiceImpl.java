@@ -109,9 +109,9 @@ public class RoomServiceImpl implements RoomService {
         if (byId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room Id: " + roomId + " does not exists");
         }
-        List<String> residentIdList = byId.getResidentIdList();
+        List<String> residentIdList = byId.getResidentId();
         List<String> filteredList = residentIdList.stream().filter(id -> !id.equals(residentId)).toList();
-        byId.setResidentIdList(filteredList);
+        byId.setResidentId(filteredList);
         this.roomRepo.save(byId);
     }
 }

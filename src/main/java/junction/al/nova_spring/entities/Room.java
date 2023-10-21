@@ -19,20 +19,20 @@ public class Room {
     private String floorId;
     private boolean isOccupied;
     private boolean isAlarm;
-    private List<String> residentIdList;
+    private List<String> residentId;
     private String area;
     private String description;
 
     public void setSingleResidentId(String residentIdList) {
-        List<String> currentList = this.getResidentIdList();
+        List<String> currentList = this.getResidentId();
         if (currentList == null) {
-            this.residentIdList = new ArrayList<>();
+            this.residentId = new ArrayList<>();
         }
-        this.getResidentIdList().add(residentIdList);
+        this.getResidentId().add(residentIdList);
     }
 
 
     public boolean isOccupied() {
-        return !((this.getResidentIdList() == null) || (this.getResidentIdList().isEmpty()));
+        return !((this.getResidentId() == null) || (this.getResidentId().isEmpty()));
     }
 }
