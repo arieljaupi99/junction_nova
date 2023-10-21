@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("room")
@@ -18,16 +19,20 @@ public class Room {
     private String floorId;
     private boolean isOccupied;
     private boolean isAlarm;
-    @Getter
-    private List<String> residentId;
+    private List<String> residentIdList;
     private String area;
     private String description;
 
-    public void setResidentId(String residentId) {
-        this.getResidentId().add(residentId);
+    public void setSingleResidentId(String residentIdList) {
+        List<String> currentList = this.getResidentIdList();
+        if (currentList == null) {
+            this.residentIdList = new ArrayList<>();
+        }
+        this.getResidentIdList().add(residentIdList);
     }
 
+
     public boolean isOccupied() {
-        return !((this.getResidentId() == null) || (this.getResidentId().isEmpty()));
+        return !((this.getResidentIdList() == null) || (this.getResidentIdList().isEmpty()));
     }
 }

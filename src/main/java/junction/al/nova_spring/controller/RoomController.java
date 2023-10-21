@@ -52,4 +52,12 @@ public class RoomController {
         return ResponseEntity.ok(this.roomService.updateResidentAndContract(request));
     }
 
+    @PostMapping("/deleteResident")
+    public void deleteResident(
+            @RequestParam("residentId") String residentId,
+            @RequestParam("roomId") String roomId
+    ){
+        this.roomService.deleteResidentFromRoom(residentId,roomId);
+    }
+
 }

@@ -20,4 +20,6 @@ public interface RoomService {
 
 
     Boolean updateResidentAndContract(RoomRequestForUpdateResidentsAndContract request);
+
+    void deleteResidentFromRoom(String residentId,String roomId);
 }
