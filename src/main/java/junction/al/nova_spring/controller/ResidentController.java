@@ -23,7 +23,7 @@ public class ResidentController {
         return ResponseEntity.ok(this.residentService.getAll());
     }
 
-    @PostMapping("/{residentId}/uploadContract")
+    @PostMapping("/uploadContract")
     public void updateContract(
             @RequestBody ContractRequest contractRequest
     ) {

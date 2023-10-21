@@ -13,6 +13,7 @@ import java.util.List;
 public class Room {
     @Id
     private String id;
+    private String price;
     private String name;
     private String floorId;
     private boolean isOccupied;
@@ -27,6 +28,6 @@ public class Room {
     }
 
     public boolean isOccupied() {
-        return  !((this.getResidentId() == null) || (this.getResidentId().isEmpty()));
+        return !((this.getResidentId() == null) || (this.getResidentId().isEmpty()));
     }
 }

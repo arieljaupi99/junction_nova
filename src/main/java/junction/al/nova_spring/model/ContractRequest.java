@@ -15,7 +15,6 @@ public class ContractRequest {
     @JsonFormat(pattern = ZONED_DATE_TIME_FORMAT, timezone = "Europe/Tirane")
     private ZonedDateTime startDate;
     @JsonFormat(pattern = ZONED_DATE_TIME_FORMAT, timezone = "Europe/Tirane")
-
     private ZonedDateTime endDate;
     private String base64String;
     private String type;

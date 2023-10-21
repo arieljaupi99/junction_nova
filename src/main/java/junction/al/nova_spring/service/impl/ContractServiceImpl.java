@@ -1,13 +1,12 @@
 package junction.al.nova_spring.service.impl;
 
 import junction.al.nova_spring.entities.Contract;
-import junction.al.nova_spring.model.ContractRequest;
 import junction.al.nova_spring.repository.ContractRepo;
 import junction.al.nova_spring.service.ContractService;
-import junction.al.nova_spring.service.FileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -23,12 +22,19 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Contract findContractByUserId(String userId) {
-        return this.contractRepo.findContractByUserIdIs(userId).orElse(null);
+    public Contract findContractByResidentId(String userId) {
+        return this.contractRepo.findContractByResidentId(userId).orElse(null);
     }
 
     @Override
     public Contract save(Contract contract) {
         return this.contractRepo.save(contract);
     }
+
+    @Override
+    public Contract findcontractById(String contractId) {
+        return this.contractRepo.findById(contractId).orElse(null);
+    }
+
+
 }

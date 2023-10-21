@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.Optional;
 
 public interface ContractRepo extends MongoRepository<Contract, String> {
-    @Query(value = "{userId :  ?0}")
-    Optional<Contract> findContractByUserIdIs(String userId);
+    @Query(value = "{residentId :  ?0}")
+    Optional<Contract> findContractByResidentId(String residentId);
 }

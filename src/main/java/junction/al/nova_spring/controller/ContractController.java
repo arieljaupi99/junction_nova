@@ -29,7 +29,7 @@ public class ContractController {
     public ResponseEntity<Contract> findContractPerUser(
             @RequestParam("residentId")String residentId
     ){
-        return ResponseEntity.ok(this.contractService.findContractByUserId(residentId));
+        return ResponseEntity.ok(this.contractService.findContractByResidentId(residentId));
     }
 
     @PostMapping("/save")

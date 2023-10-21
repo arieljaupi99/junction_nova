@@ -7,14 +7,15 @@ import junction.al.nova_spring.repository.ResidentRepo;
 import junction.al.nova_spring.service.ContractService;
 import junction.al.nova_spring.service.FileService;
 import junction.al.nova_spring.service.ResidentService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Log4j2
 public class ResidentServiceImpl implements ResidentService {
 
     private final ResidentRepo residentRepo;
@@ -53,13 +54,25 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public void updateContractForResident(ContractRequest contractRequest) {
+        log.info("DEBUG");
         Resident resident = residentRepo.findResidentById(contractRequest.getResidentId()).orElse(null);
         if (resident != null) {
-            Contract contract = Contract.generateForResident(contractRequest);
-            String filePath = this.fileService.saveAndReturnPath(contractRequest.getResidentId(), contractRequest.getBase64String(), contractRequest.getType());
-            contract.setPdfPath(filePath);
-            String contractId = contractService.save(contract).getId();
-            resident.setContractId(contractId);
+            Contract contract;
+            String pdfPath = this.fileService.saveAndReturnPath(contractRequest.getResidentId(), contractRequest.getBase64String(), contractRequest.getType());
+            if (resident.getContractId() != null && !resident.getContractId().isEmpty()) {
+                //Update the contract
+                contract = this.contractService.findcontractById(resident.getContractId());
+                contract.setPdfPath(pdfPath);
+                this.contractService.save(contract);
+            } else {
+                //Create
+                contract = Contract.generateForResident(contractRequest);
+                contract.setPdfPath(pdfPath);
+                String id = this.contractService.save(contract).getId();
+                contract.setId(id);
+            }
+
+            resident.setContractId(contract.getId());
             this.residentRepo.save(resident);
         }
     }
