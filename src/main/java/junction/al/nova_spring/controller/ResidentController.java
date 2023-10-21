@@ -1,7 +1,6 @@
 package junction.al.nova_spring.controller;
 
 import junction.al.nova_spring.entities.Resident;
-import junction.al.nova_spring.model.ContractRequest;
 import junction.al.nova_spring.service.ResidentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +22,14 @@ public class ResidentController {
         return ResponseEntity.ok(this.residentService.getAll());
     }
 
+   /*
     @PostMapping("/uploadContract")
     public void updateContract(
-            @RequestBody ContractRequest contractRequest
+            @RequestBody RoomRequestForUpdateResidentsAndContract contractRequest
     ) {
         this.residentService.updateContractForResident(contractRequest);
     }
+    */
 
     @PostMapping("/save")
     public ResponseEntity<Resident> saveResident(

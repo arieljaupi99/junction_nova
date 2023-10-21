@@ -1,19 +1,15 @@
 package junction.al.nova_spring.service.impl;
 
-import junction.al.nova_spring.entities.Contract;
 import junction.al.nova_spring.entities.Resident;
-import junction.al.nova_spring.model.ContractRequest;
 import junction.al.nova_spring.repository.ResidentRepo;
 import junction.al.nova_spring.service.ContractService;
 import junction.al.nova_spring.service.FileService;
 import junction.al.nova_spring.service.ResidentService;
-import junction.al.nova_spring.utility.Utility;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -55,14 +51,25 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void updateContractForResident(ContractRequest contractRequest) {
+    public Resident findResidentById(String residentId) {
+        return this.residentRepo.findResidentById(residentId).orElse(null);
+    }
+
+    @Override
+    public void saveForUpdate(Resident residentById) {
+        this.residentRepo.save(residentById);
+    }
+
+    /*
+    @Override
+    public void updateContractForResident(RoomRequestForUpdateResidentsAndContract contractRequest) {
         ZonedDateTime stardDate = Utility.convertTextToZonedDateTime(contractRequest.getStartDate());
         ZonedDateTime endDate = Utility.convertTextToZonedDateTime(contractRequest.getEndDate());
 
-        Resident resident = residentRepo.findResidentById(contractRequest.getResidentId()).orElse(null);
+        Resident resident = residentRepo.findResidentById(contractRequest.getResidentIdList()).orElse(null);
         if (resident != null) {
             Contract contract= new Contract();
-            String pdfPath = this.fileService.saveAndReturnPath(contractRequest.getResidentId(), contractRequest.getBase64String(), contractRequest.getType());
+            String pdfPath = this.fileService.saveAndReturnPath(contractRequest.getResidentIdList(), contractRequest.getBase64String(), contractRequest.getType());
             if (resident.getContractId() != null && !resident.getContractId().isEmpty()) {
                 //Update the contract
                 contract = this.contractService.findcontractById(resident.getContractId());
@@ -81,5 +88,7 @@ public class ResidentServiceImpl implements ResidentService {
             resident.setContractId(contract.getId());
             this.residentRepo.save(resident);
         }
-    }
+            }
+     */
+
 }

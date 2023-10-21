@@ -1,6 +1,6 @@
 package junction.al.nova_spring.entities;
 
-import junction.al.nova_spring.model.ContractRequest;
+import junction.al.nova_spring.model.RoomRequestForUpdateResidentsAndContract;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,15 +16,19 @@ import java.time.ZonedDateTime;
 public class Contract {
     @Id
     private String id;
-    private String residentId;
+    private String roomId;
     private String contractNumber;
     private String pdfPath;
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
 
-    public static Contract generateForResident(ContractRequest contractRequest) {
+
+    public static Contract generateContractFromRequest(RoomRequestForUpdateResidentsAndContract request,String pdfPath) {
         return Contract.builder()
-                .residentId(contractRequest.getResidentId())
+                .pdfPath(pdfPath)
+                .startDate(request.convertStartDate())
+                .endDate(request.convertEndDate())
+                .roomId(request.getRoomId())
                 .build();
     }
 }

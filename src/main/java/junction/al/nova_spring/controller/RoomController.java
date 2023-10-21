@@ -1,7 +1,8 @@
 package junction.al.nova_spring.controller;
 
 import junction.al.nova_spring.entities.Room;
-import junction.al.nova_spring.model.RoomRequest;
+import junction.al.nova_spring.model.RoomRequestForUpdateResidentsAndContract;
+import junction.al.nova_spring.model.RoomRequestSingleUserUpdate;
 import junction.al.nova_spring.model.RoomResponse;
 import junction.al.nova_spring.service.RoomService;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,16 @@ public class RoomController {
     @PostMapping("/updateResident")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<RoomResponse> updateRoomUser(
-            @RequestBody RoomRequest roomRequest
+            @RequestBody RoomRequestSingleUserUpdate roomRequestSingleUserUpdate
     ) {
-        return ResponseEntity.ok(this.roomService.updateRoomResident(roomRequest));
+        return ResponseEntity.ok(this.roomService.updateRoomResident(roomRequestSingleUserUpdate));
+    }
+
+    @PostMapping("/updateRoom")
+    public ResponseEntity<Boolean> updateRoom(
+            @RequestBody RoomRequestForUpdateResidentsAndContract request
+            ){
+        return ResponseEntity.ok(this.roomService.updateResidentAndContract(request));
     }
 
 }

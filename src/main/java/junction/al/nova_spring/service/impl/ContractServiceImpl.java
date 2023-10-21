@@ -21,19 +21,14 @@ public class ContractServiceImpl implements ContractService {
         return this.contractRepo.findAll();
     }
 
-    @Override
-    public Contract findContractByResidentId(String userId) {
-        return this.contractRepo.findContractByResidentId(userId).orElse(null);
-    }
 
     @Override
     public Contract save(Contract contract) {
+        Contract contractByRoomIdIsIgnoreCase = this.contractRepo.findContractByRoomIdIsIgnoreCase(contract.getRoomId());
+        if (contractByRoomIdIsIgnoreCase != null){
+            this.contractRepo.delete(contractByRoomIdIsIgnoreCase);
+        }
         return this.contractRepo.save(contract);
-    }
-
-    @Override
-    public Contract findcontractById(String contractId) {
-        return this.contractRepo.findById(contractId).orElse(null);
     }
 
 

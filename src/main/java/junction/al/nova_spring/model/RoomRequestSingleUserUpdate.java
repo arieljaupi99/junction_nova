@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoomRequest {
+public class RoomRequestSingleUserUpdate {
     private String roomId;
-    private String userName;
-    private String userSurname;
+    private String name;
+    private String surname;
 }

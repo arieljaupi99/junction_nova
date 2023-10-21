@@ -1,10 +1,14 @@
 package junction.al.nova_spring.service.impl;
 
+import junction.al.nova_spring.entities.Contract;
 import junction.al.nova_spring.entities.Resident;
 import junction.al.nova_spring.entities.Room;
-import junction.al.nova_spring.model.RoomRequest;
+import junction.al.nova_spring.model.RoomRequestForUpdateResidentsAndContract;
+import junction.al.nova_spring.model.RoomRequestSingleUserUpdate;
 import junction.al.nova_spring.model.RoomResponse;
 import junction.al.nova_spring.repository.RoomRepo;
+import junction.al.nova_spring.service.ContractService;
+import junction.al.nova_spring.service.FileService;
 import junction.al.nova_spring.service.ResidentService;
 import junction.al.nova_spring.service.RoomService;
 import lombok.extern.log4j.Log4j2;
@@ -20,10 +24,13 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService {
     private final RoomRepo roomRepo;
     private final ResidentService residentService;
-
-    public RoomServiceImpl(RoomRepo roomRepo, ResidentService residentService) {
+    private final FileService fileService;
+    private final ContractService contractService;
+    public RoomServiceImpl(RoomRepo roomRepo, ResidentService residentService, FileService fileService, ContractService contractService) {
         this.roomRepo = roomRepo;
         this.residentService = residentService;
+        this.fileService = fileService;
+        this.contractService = contractService;
     }
 
     @Override
@@ -47,24 +54,47 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomResponse updateRoomResident(RoomRequest roomRequest) {
+    public RoomResponse updateRoomResident(RoomRequestSingleUserUpdate roomRequestSingleUserUpdate) {
+        log.info("DEBUG");
         RoomResponse response = new RoomResponse();
-        Room room = this.roomRepo.findById(roomRequest.getRoomId()).orElse(null);
+        Room room = this.roomRepo.findById(roomRequestSingleUserUpdate.getRoomId()).orElse(null);
         if (room != null) {
-            Resident resident = this.residentService.findResidentByNameAndSurname(roomRequest.getUserName(), roomRequest.getUserSurname());
+            Resident resident = this.residentService.findResidentByNameAndSurname(roomRequestSingleUserUpdate.getName(), roomRequestSingleUserUpdate.getSurname());
             if (resident == null) {
-                resident = this.residentService.save(Resident.generateFromRoomRequest(roomRequest));
+                resident = this.residentService.save(Resident.generateFromRoomRequest(roomRequestSingleUserUpdate));
                 response.setNewResident(true);
             }
-            if (resident.getRoomId() != null) {
+            else if (resident.getRoomId() != null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This resident has already a room!");
             }
-            resident.setRoomId(roomRequest.getRoomId());
+            resident.setRoomId(roomRequestSingleUserUpdate.getRoomId());
             residentService.update(resident);
             room.setResidentId(resident.getId());
             roomRepo.save(room);
             return response;
         }
         return null;
+    }
+
+    @Override
+    public Boolean updateResidentAndContract(RoomRequestForUpdateResidentsAndContract request) {
+        log.info("DEBUG");
+        //Ruaj pdf ne server dhe kthe path(uniqe per room)
+        String pdfPath = this.fileService.saveAndReturnPath(request.getRoomId(), request.getBase64String(), request.getType());
+        Contract contract = Contract.generateContractFromRequest(request,pdfPath);
+        Contract saved = this.contractService.save(contract);
+
+        List<String> residents = request.getResidentIdList();
+        //Merr cdo resident dhe kontrollo nese ka contract apo jo
+        for (String residentId : residents) {
+            Resident residentById = this.residentService.findResidentById(residentId);
+            if (residentById == null){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Resident with id : " + residentId+" does not exists!");
+            }
+            residentById.setContractId(saved.getId());
+            residentById.setRoomId(request.getRoomId());
+            this.residentService.saveForUpdate(residentById);
+        }
+        return true;
     }
 }

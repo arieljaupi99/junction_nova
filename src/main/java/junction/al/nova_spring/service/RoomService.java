@@ -1,8 +1,10 @@
 package junction.al.nova_spring.service;
 
 import junction.al.nova_spring.entities.Room;
-import junction.al.nova_spring.model.RoomRequest;
+import junction.al.nova_spring.model.RoomRequestForUpdateResidentsAndContract;
+import junction.al.nova_spring.model.RoomRequestSingleUserUpdate;
 import junction.al.nova_spring.model.RoomResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +16,8 @@ public interface RoomService {
 
     Room updateAlarm(String roomId,boolean alarm);
 
-    RoomResponse updateRoomResident(RoomRequest roomRequest);
+    RoomResponse updateRoomResident(RoomRequestSingleUserUpdate roomRequestSingleUserUpdate);
+
+
+    Boolean updateResidentAndContract(RoomRequestForUpdateResidentsAndContract request);
 }

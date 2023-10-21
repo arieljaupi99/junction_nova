@@ -1,6 +1,6 @@
 package junction.al.nova_spring.entities;
 
-import junction.al.nova_spring.model.RoomRequest;
+import junction.al.nova_spring.model.RoomRequestSingleUserUpdate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +24,11 @@ public class Resident {
     private String roomId;
     private String contractId;
 
-    public static Resident generateFromRoomRequest(RoomRequest roomRequest) {
+    public static Resident generateFromRoomRequest(RoomRequestSingleUserUpdate roomRequestSingleUserUpdate) {
         return Resident.builder()
-                .name(roomRequest.getUserName())
-                .surname(roomRequest.getUserSurname())
-                .roomId(roomRequest.getRoomId())
+                .name(roomRequestSingleUserUpdate.getName())
+                .surname(roomRequestSingleUserUpdate.getSurname())
+                .roomId(roomRequestSingleUserUpdate.getRoomId())
                 .build();
     }
 }

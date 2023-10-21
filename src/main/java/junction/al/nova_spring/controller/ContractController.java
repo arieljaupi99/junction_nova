@@ -24,14 +24,6 @@ public class ContractController {
         return ResponseEntity.ok(this.contractService.getAll());
     }
 
-    @GetMapping("/forResident")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Contract> findContractPerUser(
-            @RequestParam("residentId")String residentId
-    ){
-        return ResponseEntity.ok(this.contractService.findContractByResidentId(residentId));
-    }
-
     @PostMapping("/save")
     public ResponseEntity<Contract> saveContract(
             @RequestBody Contract contract

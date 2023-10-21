@@ -20,7 +20,7 @@ public class FileServiceImpl implements FileService {
     private final String USER_HOME = System.getProperty("user.home");
 
     @Override
-    public String saveAndReturnPath(String residentId, String base64Contract, String type) {
+    public String saveAndReturnPath(String roomId, String base64Contract, String type) {
         try {
 
             String subfolderPath = Paths.get(USER_HOME, uploadDirectory).toString();
@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
             if (!subfolder.exists()) {
                 subfolder.mkdir();
             }
-            String fileName = "contract_" + residentId + "." + type;
+            String fileName = "contract_" + roomId + "." + type;
 
             //Define the file path inside the subfolder
             String filePath = Paths.get(subfolderPath, fileName).toString();
