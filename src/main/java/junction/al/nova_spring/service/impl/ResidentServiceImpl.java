@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResidentServiceImpl implements ResidentService {
@@ -43,6 +44,11 @@ public class ResidentServiceImpl implements ResidentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This resident already exists");
         }
         return this.residentRepo.save(resident);
+    }
+
+    @Override
+    public void update(Resident resident) {
+        this.residentRepo.findResidentById(resident.getId()).ifPresent(residentById -> this.residentRepo.save(resident));
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface RoomService {
 
     Optional<Room> findRoomById(String roomId);
 
-    void updateAlarm(String roomId,boolean alarm);
+    Room updateAlarm(String roomId,boolean alarm);
 
     RoomResponse updateRoomResident(RoomRequest roomRequest);
 }

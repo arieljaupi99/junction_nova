@@ -1,7 +1,5 @@
 package junction.al.nova_spring.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import junction.al.nova_spring.security.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -19,11 +17,16 @@ public class Room {
     private String floorId;
     private boolean isOccupied;
     private boolean isAlarm;
+    @Getter
     private List<String> residentId;
     private String area;
     private String description;
 
+    public void setResidentId(String residentId) {
+        this.getResidentId().add(residentId);
+    }
+
     public boolean isOccupied() {
-        return this.residentId != null || this.residentId.isEmpty();
+        return  !((this.getResidentId() == null) || (this.getResidentId().isEmpty()));
     }
 }

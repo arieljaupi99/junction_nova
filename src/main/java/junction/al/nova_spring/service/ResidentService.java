@@ -12,5 +12,7 @@ public interface ResidentService {
 
     Resident save(Resident resident);
 
+    void  update(Resident resident);
+
     void updateContractForResident(ContractRequest contractRequest);
 }

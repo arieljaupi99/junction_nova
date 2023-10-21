@@ -29,11 +29,11 @@ public class RoomController {
 
     @PostMapping("{roomId}/updateAlarm")
     @ResponseStatus(HttpStatus.OK)
-    public void updateRoomAlarm(
+    public ResponseEntity<Room> updateRoomAlarm(
             @PathVariable("roomId") String roomId,
             @RequestParam("alarm") boolean alarm
     ) {
-        this.roomService.updateAlarm(roomId, alarm);
+        return ResponseEntity.ok(this.roomService.updateAlarm(roomId, alarm));
     }
 
     @PostMapping("/updateResident")
