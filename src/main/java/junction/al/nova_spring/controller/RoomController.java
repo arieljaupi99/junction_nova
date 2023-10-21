@@ -1,6 +1,8 @@
 package junction.al.nova_spring.controller;
 
 import junction.al.nova_spring.entities.Room;
+import junction.al.nova_spring.model.RoomRequest;
+import junction.al.nova_spring.model.RoomResponse;
 import junction.al.nova_spring.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +30,18 @@ public class RoomController {
     @PostMapping("{roomId}/updateAlarm")
     @ResponseStatus(HttpStatus.OK)
     public void updateRoomAlarm(
-            @PathVariable("roomId")String roomId,
-            @RequestParam("alarm")boolean alarm
-    ){
-        this.roomService.updateAlarm(roomId,alarm);
+            @PathVariable("roomId") String roomId,
+            @RequestParam("alarm") boolean alarm
+    ) {
+        this.roomService.updateAlarm(roomId, alarm);
+    }
+
+    @PostMapping("/updateResident")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<RoomResponse> updateRoomUser(
+            @RequestBody RoomRequest roomRequest
+    ) {
+        return ResponseEntity.ok(this.roomService.updateRoomResident(roomRequest));
     }
 
 }

@@ -24,12 +24,19 @@ public class ContractController {
         return ResponseEntity.ok(this.contractService.getAll());
     }
 
-    @GetMapping("/forUser")
+    @GetMapping("/forResident")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Contract> findContractPerUser(
-            @RequestParam("userId")String userId
+            @RequestParam("residentId")String residentId
     ){
-        return ResponseEntity.ok(this.contractService.findContractByUserId(userId));
+        return ResponseEntity.ok(this.contractService.findContractByUserId(residentId));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Contract> saveContract(
+            @RequestBody Contract contract
+    ){
+        return ResponseEntity.ok(this.contractService.save(contract));
     }
 
 }

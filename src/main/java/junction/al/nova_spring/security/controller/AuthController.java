@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("/auth")
+
 public class AuthController {
     private final AuthService authService;
 

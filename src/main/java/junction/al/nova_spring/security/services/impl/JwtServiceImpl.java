@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
+
 public class JwtServiceImpl implements JwtService {
     private static final String SECRET_KEY = "244226452948404D635166546A576E5A7234753777217A25432A462D4A614E64";
     private final TokenBlacklistService tokenBlacklistService;
@@ -27,12 +28,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     public String generateToken(Map<String, Objects> extraClaims, UserDetails userDetails) {
+        long expirationTimeInMillis = 1000 * 60 * 60 * 24 * 10; // 10 days in milliseconds
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTimeInMillis))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

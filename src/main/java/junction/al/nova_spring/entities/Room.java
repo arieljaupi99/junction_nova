@@ -7,19 +7,23 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document("room")
 @Getter
 @Setter
 public class Room {
     @Id
     private String id;
-    private String floorNumber;
+    private String name;
+    private String floorId;
     private boolean isOccupied;
     private boolean isAlarm;
-    @JsonIgnore
-    private User user;
+    private List<String> residentId;
+    private String area;
+    private String description;
 
     public boolean isOccupied() {
-        return this.user != null;
+        return this.residentId != null || this.residentId.isEmpty();
     }
 }

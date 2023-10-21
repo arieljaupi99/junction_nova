@@ -6,3 +6,12 @@ spring:
     mongodb:
       uri: mongodb+srv://nova_junction:9tMgd8JJu81RE7GG@junction.dd8rcod.mongodb.net/
       database: junction
+
+app:
+  secure:
+    false
+
+file:
+  upload:
+    directory:
+      "contracts"

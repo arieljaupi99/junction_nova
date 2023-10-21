@@ -30,7 +30,6 @@ public class User implements UserDetails {
     @Field(name = "role")
     private Role role;
     private String displayName;
-    private Contract contract;
 
     @Override
     public boolean isAccountNonExpired() {

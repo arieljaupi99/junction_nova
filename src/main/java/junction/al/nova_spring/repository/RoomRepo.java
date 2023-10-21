@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface RoomRepo extends MongoRepository<Room, String> {
-    @Query(value = "{floorNumber :  ?0}")
-    List<Room> findRoomsByFloorNumberIs(String floorId);
+    @Query(value = "{floorId :  ?0}")
+    List<Room> findRoomsByFloorIdIs(String floorId);
 }
