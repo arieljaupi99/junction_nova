@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("building")
 @Tag(name = "Building")
 public class BuildingController {

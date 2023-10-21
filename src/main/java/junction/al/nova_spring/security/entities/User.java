@@ -29,6 +29,7 @@ public class User implements UserDetails {
     @Getter
     @Field(name = "role")
     private Role role;
+    private String displayName;
     private Contract contract;
 
     @Override

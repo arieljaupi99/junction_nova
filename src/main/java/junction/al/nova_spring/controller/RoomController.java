@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("room")
 public class RoomController {
     private final RoomService roomService;

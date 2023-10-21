@@ -37,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(registerRequest.getUsername().trim().toLowerCase());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(Role.USER);
+        user.setDisplayName(registerRequest.getDisplayName());
         this.userRepo.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -57,6 +58,7 @@ public class AuthServiceImpl implements AuthService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .displayName(user.getDisplayName())
                 .build();
     }
 
