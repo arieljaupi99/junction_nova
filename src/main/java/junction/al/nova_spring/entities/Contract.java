@@ -25,8 +25,6 @@ public class Contract {
     public static Contract generateForResident(ContractRequest contractRequest) {
         return Contract.builder()
                 .residentId(contractRequest.getResidentId())
-                .startDate(contractRequest.getStartDate())
-                .endDate(contractRequest.getEndDate())
                 .build();
     }
 }

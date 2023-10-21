@@ -7,11 +7,13 @@ import junction.al.nova_spring.repository.ResidentRepo;
 import junction.al.nova_spring.service.ContractService;
 import junction.al.nova_spring.service.FileService;
 import junction.al.nova_spring.service.ResidentService;
+import junction.al.nova_spring.utility.Utility;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -54,10 +56,12 @@ public class ResidentServiceImpl implements ResidentService {
 
     @Override
     public void updateContractForResident(ContractRequest contractRequest) {
-        log.info("DEBUG");
+        ZonedDateTime stardDate = Utility.convertTextToZonedDateTime(contractRequest.getStartDate());
+        ZonedDateTime endDate = Utility.convertTextToZonedDateTime(contractRequest.getEndDate());
+
         Resident resident = residentRepo.findResidentById(contractRequest.getResidentId()).orElse(null);
         if (resident != null) {
-            Contract contract;
+            Contract contract= new Contract();
             String pdfPath = this.fileService.saveAndReturnPath(contractRequest.getResidentId(), contractRequest.getBase64String(), contractRequest.getType());
             if (resident.getContractId() != null && !resident.getContractId().isEmpty()) {
                 //Update the contract
@@ -66,8 +70,10 @@ public class ResidentServiceImpl implements ResidentService {
                 this.contractService.save(contract);
             } else {
                 //Create
-                contract = Contract.generateForResident(contractRequest);
+                contract.setResidentId(resident.getId());
                 contract.setPdfPath(pdfPath);
+                contract.setStartDate(stardDate);
+                contract.setEndDate(endDate);
                 String id = this.contractService.save(contract).getId();
                 contract.setId(id);
             }
