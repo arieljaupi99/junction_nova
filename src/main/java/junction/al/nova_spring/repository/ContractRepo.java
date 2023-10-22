@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface ContractRepo extends MongoRepository<Contract, String> {
     Contract findContractByRoomIdIsIgnoreCase(String roomId);
+    void deleteAllById(String id);
 }

@@ -74,6 +74,7 @@ public class RoomServiceImpl implements RoomService {
             residentService.update(resident);
             room.setSingleResidentId(resident.getId());
             roomRepo.save(room);
+            response.setResidentId(resident.getId());
             return response;
         }
         return null;
@@ -87,8 +88,16 @@ public class RoomServiceImpl implements RoomService {
         String pdfPath = this.fileService.saveAndReturnPath(request.getRoomId(), request.getBase64String(), request.getType());
         Contract contract = Contract.generateContractFromRequest(request, pdfPath);
         Contract saved = this.contractService.save(contract);
-
-        List<String> residents = request.getResidentIdList();
+        Room room = this.roomRepo.findById(request.getRoomId()).orElse(null);
+        if (room == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The room with id : " + request.getRoomId() + " does not exists");
+        }
+        if (room.getResidentId() == null || room.getResidentId().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The room with id : " + request.getRoomId() + " should have at least one resident!");
+        }
+        room.setContractId(contract.getId());
+        List<String> residents = room.getResidentId();
+        this.roomRepo.save(room);
         //Merr cdo resident dhe kontrollo nese ka contract apo jo
         for (String residentId : residents) {
             Resident residentById = this.residentService.findResidentById(residentId);
@@ -113,5 +122,26 @@ public class RoomServiceImpl implements RoomService {
         List<String> filteredList = residentIdList.stream().filter(id -> !id.equals(residentId)).toList();
         byId.setResidentId(filteredList);
         this.roomRepo.save(byId);
+    }
+
+    @Override
+    public void addResidentFromRoom(String residentId, String roomId) {
+        log.info("DEBUG");
+        Room byId = this.roomRepo.findById(roomId).orElse(null);
+        if (byId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room Id: " + roomId + " does not exists");
+        }
+        List<String> listId = byId.getResidentId();
+        boolean shouldAdd = true;
+        for (String id : listId) {
+            if (id.equals(residentId)) {
+                shouldAdd = false;
+                break;
+            }
+        }
+        if (shouldAdd) {
+            byId.setSingleResidentId(residentId);
+            this.roomRepo.save(byId);
+        }
     }
 }

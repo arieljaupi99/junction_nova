@@ -21,8 +21,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveAndReturnPath(String roomId, String base64Contract, String type) {
-        try {
 
+        try {
             String subfolderPath = Paths.get(USER_HOME, uploadDirectory).toString();
             File subfolder = new File(subfolderPath);
             if (!subfolder.exists()) {

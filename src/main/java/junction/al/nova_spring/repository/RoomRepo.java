@@ -9,4 +9,7 @@ import java.util.List;
 public interface RoomRepo extends MongoRepository<Room, String> {
     @Query(value = "{floorId :  ?0}")
     List<Room> findRoomsByFloorIdIs(String floorId);
+
+    @Query(value = "{contractId :  ?0}")
+    Room findRoomByContractIdIgnoreCase(String id);
 }

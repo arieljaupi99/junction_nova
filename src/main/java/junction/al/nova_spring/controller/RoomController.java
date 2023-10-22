@@ -1,10 +1,12 @@
 package junction.al.nova_spring.controller;
 
 import junction.al.nova_spring.entities.Room;
+import junction.al.nova_spring.model.UpdateResidentFromRoomRequest;
 import junction.al.nova_spring.model.RoomRequestForUpdateResidentsAndContract;
 import junction.al.nova_spring.model.RoomRequestSingleUserUpdate;
 import junction.al.nova_spring.model.RoomResponse;
 import junction.al.nova_spring.service.RoomService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("room")
+@Log4j2
+@CrossOrigin(value = "*")
 public class RoomController {
     private final RoomService roomService;
 
@@ -22,13 +24,13 @@ public class RoomController {
     }
 
 
-    @GetMapping("/perFloor")
+    @GetMapping("/room/perFloor")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Room>> roomsPerFloor(@RequestParam("floorId") String floorId) {
         return ResponseEntity.ok(this.roomService.getAllRoomsPerFloor(floorId));
     }
 
-    @PostMapping("{roomId}/updateAlarm")
+    @PostMapping("/room/{roomId}/updateAlarm")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Room> updateRoomAlarm(
             @PathVariable("roomId") String roomId,
@@ -37,27 +39,33 @@ public class RoomController {
         return ResponseEntity.ok(this.roomService.updateAlarm(roomId, alarm));
     }
 
-    @PostMapping("/updateResident")
+    @PostMapping("/room/updateResident")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RoomResponse> updateRoomUser(
+    public ResponseEntity<RoomResponse> updateRoomResident(
             @RequestBody RoomRequestSingleUserUpdate roomRequestSingleUserUpdate
     ) {
         return ResponseEntity.ok(this.roomService.updateRoomResident(roomRequestSingleUserUpdate));
     }
 
-    @PostMapping("/updateRoom")
-    public ResponseEntity<Boolean> updateRoom(
+    @PostMapping("/room/updateRoomContract")
+    public ResponseEntity<Boolean> updateRoomContract(
             @RequestBody RoomRequestForUpdateResidentsAndContract request
             ){
         return ResponseEntity.ok(this.roomService.updateResidentAndContract(request));
     }
 
-    @PostMapping("/deleteResident")
+    @PostMapping("/room/deleteResident")
     public void deleteResident(
-            @RequestParam("residentId") String residentId,
-            @RequestParam("roomId") String roomId
+            @RequestBody UpdateResidentFromRoomRequest request
     ){
-        this.roomService.deleteResidentFromRoom(residentId,roomId);
+        this.roomService.deleteResidentFromRoom(request.getResidentId(), request.getRoomId());
+    }
+
+    @PostMapping("/room/addResident")
+    public void addResident(
+            @RequestBody UpdateResidentFromRoomRequest request
+    ){
+        this.roomService.addResidentFromRoom(request.getResidentId(), request.getRoomId());
     }
 
 }

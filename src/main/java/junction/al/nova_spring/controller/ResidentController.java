@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("resident")
-@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(value = "*")
 public class ResidentController {
     private final ResidentService residentService;
 
@@ -17,7 +16,7 @@ public class ResidentController {
         this.residentService = residentService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/resident/getAll")
     public ResponseEntity<List<Resident>> getAll() {
         return ResponseEntity.ok(this.residentService.getAll());
     }
@@ -31,7 +30,7 @@ public class ResidentController {
     }
     */
 
-    @PostMapping("/save")
+    @PostMapping("/resident/save")
     public ResponseEntity<Resident> saveResident(
             @RequestBody Resident resident
     ) {

@@ -26,8 +26,8 @@ public class Contract {
     public static Contract generateContractFromRequest(RoomRequestForUpdateResidentsAndContract request,String pdfPath) {
         return Contract.builder()
                 .pdfPath(pdfPath)
-                .startDate(request.convertStartDate())
-                .endDate(request.convertEndDate())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
                 .roomId(request.getRoomId())
                 .build();
     }

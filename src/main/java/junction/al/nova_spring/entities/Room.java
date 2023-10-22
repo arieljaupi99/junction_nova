@@ -22,6 +22,7 @@ public class Room {
     private List<String> residentId;
     private String area;
     private String description;
+    private String contractId;
 
     public void setSingleResidentId(String residentIdList) {
         List<String> currentList = this.getResidentId();

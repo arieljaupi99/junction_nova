@@ -5,12 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("echo")
-@Tag(name = "echo")
+@CrossOrigin(value = "*")
 public class EchoController {
 
-    @GetMapping
+    @GetMapping("/echo")
     @ResponseStatus(HttpStatus.OK)
     public String echo() {
         return "echo";

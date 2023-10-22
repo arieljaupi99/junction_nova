@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoomResponse {
-    private boolean newResident;
+public class UpdateResidentFromRoomRequest {
     private String residentId;
+    private String roomId;
 }

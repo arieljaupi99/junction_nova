@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "*", methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("floor")
-@Tag(name = "Floor")
+@CrossOrigin(value = "*")
 public class FloorController {
     private final FloorService floorService;
 
@@ -20,7 +18,7 @@ public class FloorController {
         this.floorService = floorService;
     }
 
-    @GetMapping("/forBuilding")
+    @GetMapping("/floor/forBuilding")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Floor>> floorPerBuilding(@RequestParam("buildingId") String buildingId) {
         return ResponseEntity.ok(this.floorService.floorPerBuilding(buildingId));

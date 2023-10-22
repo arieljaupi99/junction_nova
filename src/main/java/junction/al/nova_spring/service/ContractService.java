@@ -10,4 +10,7 @@ public interface ContractService {
 
     Contract save(Contract contract);
 
+    Contract findById(String contractId);
+
+    void deleteById(String contractId);
 }
