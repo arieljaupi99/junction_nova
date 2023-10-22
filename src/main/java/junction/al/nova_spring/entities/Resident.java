@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Builder
 @CompoundIndexes({
-        @CompoundIndex(name = "name_surname", def = "{'name' : 1, 'surname': 1}" , unique = true),
+        @CompoundIndex(name = "name_surname", def = "{'name' : 1, 'surname': 1}", unique = true),
 })
 public class Resident {
     @Id
@@ -23,6 +23,9 @@ public class Resident {
     private String surname;
     private String roomId;
     private String contractId;
+    private String telephone;
+    private String notes;
+    private String specialRequirments;
 
     public static Resident generateFromRoomRequest(RoomRequestSingleUserUpdate roomRequestSingleUserUpdate) {
         return Resident.builder()
