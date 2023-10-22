@@ -128,9 +128,10 @@ public class RoomServiceImpl implements RoomService {
     public void addResidentFromRoom(String residentId, String roomId) {
         log.info("DEBUG");
         Room byId = this.roomRepo.findById(roomId).orElse(null);
-        if (byId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room Id: " + roomId + " does not exists");
-        }
+        int capacity = Integer.parseInt(byId.getCapacity());
+            if (byId == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This room Id: " + roomId + " does not exists");
+            }
         List<String> listId = byId.getResidentId();
         boolean shouldAdd = true;
         for (String id : listId) {
@@ -138,6 +139,9 @@ public class RoomServiceImpl implements RoomService {
                 shouldAdd = false;
                 break;
             }
+        }
+        if (listId.size()+1 > capacity){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Maximum capacity is occured for room with id :" +roomId);
         }
         if (shouldAdd) {
             byId.setSingleResidentId(residentId);
