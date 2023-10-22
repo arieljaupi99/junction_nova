@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "*")
+@RequestMapping("api")
 public class FloorController {
     private final FloorService floorService;
 

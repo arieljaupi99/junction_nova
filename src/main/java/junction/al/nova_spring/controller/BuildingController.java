@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "*")
+@RequestMapping("api")
 public class BuildingController {
     private final BuildingService buildingService;
 

@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "*")
+@RequestMapping("api")
 public class ContractController {
     private final ContractService contractService;
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Log4j2
-@CrossOrigin(value = "*")
+@RequestMapping("api")
 public class RoomController {
     private final RoomService roomService;
 
